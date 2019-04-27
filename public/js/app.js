@@ -2084,6 +2084,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -3306,6 +3307,12 @@ var render = function() {
               : _vm._e()
           ]
         ),
+        _vm._v(" "),
+        _vm.errors.invalid
+          ? _c("div", { staticClass: "alert alert-danger" }, [
+              _vm._v(_vm._s(_vm.errors.invalid))
+            ])
+          : _vm._e(),
         _vm._v(" "),
         _c("div", { staticClass: "row" }, [
           _c("div", { staticClass: "col-xs-8" }, [
@@ -19680,6 +19687,12 @@ var actions = {
         if (response.data.status == 'success') {
           localStorage.setItem('token', response.data.data);
           commit('SET_TOKEN', response.data.data, {
+            root: true
+          });
+        } else {
+          commit('SET_ERRORS', {
+            invalid: 'Email/Password Salah'
+          }, {
             root: true
           });
         }

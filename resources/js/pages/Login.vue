@@ -17,6 +17,7 @@
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     <p class="text-danger" v-if="errors.password">{{ errors.password[0] }}</p>
                 </div>
+                <div class="alert alert-danger" v-if="errors.invalid">{{ errors.invalid }}</div>
                 <div class="row">
                     <div class="col-xs-8">
                         <div class="checkbox">
