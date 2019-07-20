@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserCollection;
+use Spatie\Permission\Models\Permission;
 use App\User;
 use DB;
 use File;
@@ -19,6 +20,12 @@ class UserController extends Controller
         }
         $users = $users->paginate(10);
         return new UserCollection($users);
+    }
+
+    public function userLists()
+    {
+        $user = User::where('role', '!=', 3)->get();
+        return new UserCollection($user);
     }
 
     public function store(Request $request)
@@ -39,7 +46,7 @@ class UserController extends Controller
                 $name = $request->email . '-' . time() . '.' . $file->getClientOriginalExtension();
                 $file->storeAs('public/couriers', $name);
             }
-            User::create([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $request->password,
@@ -48,6 +55,7 @@ class UserController extends Controller
                 'outlet_id' => $request->outlet_id,
                 'role' => 3
             ]);
+            $user->assignRole('courier');
             DB::commit();
             return response()->json(['status' => 'success'], 200);
         } catch (\Exception $e) {
@@ -102,5 +110,18 @@ class UserController extends Controller
         File::delete(storage_path('app/public/couriers/' . $user->photo));
         $user->delete();
         return response()->json(['status' => 'success']);
+    }
+
+    public function getUserLogin()
+    {
+        $user = request()->user();
+        $permissions = [];
+        foreach (Permission::all() as $permission) {
+            if (request()->user()->can($permission->name)) {
+                $permissions[] = $permission->name;
+            }
+        }
+        $user['permission'] = $permissions;
+        return response()->json(['status' => 'success', 'data' => $user]);
     }
 }

@@ -60,6 +60,7 @@ export default {
     },
     methods: {
         ...mapActions('auth', ['submit']),
+        ...mapActions('user', ['getUserLogin']),
         ...mapMutations(['CLEAR_ERRORS']),
         postLogin() {
             this.submit(this.data).then(() => {
@@ -69,6 +70,9 @@ export default {
                 }
             })
         }
+    },
+    destroyed() {
+        this.getUserLogin()
     }
 }
 </script>
