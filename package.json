@@ -25,6 +25,9 @@
     },
     "dependencies": {
         "bootstrap-vue": "^2.0.0-rc.26",
+        "laravel-echo": "^1.5.4",
+        "moment": "^2.24.0",
+        "pusher-js": "^5.0.0",
         "vue-router": "^3.0.7",
         "vue-sweetalert2": "^1.6.4",
         "vuex": "^3.1.1"

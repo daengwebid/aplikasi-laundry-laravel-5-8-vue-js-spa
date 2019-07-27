@@ -32,4 +32,9 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::post('role-permission', 'API\RolePermissionController@getRolePermission')->name('role_permission');
     Route::post('set-role-permission', 'API\RolePermissionController@setRolePermission')->name('set_role_permission');
     Route::post('set-role-user', 'API\RolePermissionController@setRoleUser')->name('user.set_role');
+
+    Route::resource('expenses', 'API\ExpensesController')->except(['create', 'show']);
+    Route::post('expenses/accept', 'API\ExpensesController@accept')->name('expenses.accept');
+    Route::post('expenses/cancel', 'API\ExpensesController@cancelRequest')->name('expenses.cancel');
+    Route::resource('notification', 'API\NotificationController')->except(['create', 'destroy']);
 });
