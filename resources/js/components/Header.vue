@@ -15,6 +15,7 @@
                         <li v-if="$can('read outlets')"><router-link :to="{ name: 'outlets.data' }">Outlets</router-link></li>
                         <li v-if="$can('read couriers')"><router-link :to="{ name: 'couriers.data' }">Couriers</router-link></li>
                         <li v-if="$can('read products')"><router-link :to="{ name: 'products.data' }">Products</router-link></li>
+                        <li><router-link :to="{ name: 'customers.data' }">Customer</router-link></li>
                         <li><router-link :to="{ name: 'expenses.data' }">Expenses</router-link></li>
                         <li class="dropdown" v-if="authenticated.role == 0">
                             <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Settings <span class="caret"></span></a>
