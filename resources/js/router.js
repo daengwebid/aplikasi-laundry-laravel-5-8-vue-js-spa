@@ -33,6 +33,9 @@ import DataCustomer from './pages/customers/Customer.vue'
 import AddCustomer from './pages/customers/Add.vue'
 import EditCustomer from './pages/customers/Edit.vue'
 
+import IndexTransaction from './pages/transaction/Index.vue'
+import AddTransaction from './pages/transaction/Add.vue'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -190,6 +193,19 @@ const router = new Router({
                     name: 'customers.edit',
                     component: EditCustomer,
                     meta: { title: 'Edit Customer' }
+                },
+            ]
+        },
+        {
+            path: '/transactions',
+            component: IndexTransaction,
+            meta: { requiresAuth: true },
+            children: [
+                {
+                    path: 'create',
+                    name: 'transactions.add',
+                    component: AddTransaction,
+                    meta: { title: 'Create New Transaction' }
                 },
             ]
         }

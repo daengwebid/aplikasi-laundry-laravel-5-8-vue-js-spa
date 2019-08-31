@@ -39,4 +39,5 @@ Route::group(['middleware' => 'auth:api'], function() {
     Route::resource('notification', 'API\NotificationController')->except(['create', 'destroy']);
 
     Route::resource('customer', 'API\CustomerController')->except(['create', 'show']);
+    Route::resource('transaction', 'API\TransactionController')->except(['create', 'show']);
 });
