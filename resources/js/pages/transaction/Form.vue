@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group" :class="{ 'has-error': errors.customer_id }">
-                <label for="">Customer</label>
+                <label for="">Customer <sup><a href="javascript:void(0)" @click="newCustomer">New Customer</a></sup></label>
                 <v-select :options="customers.data"
                     v-model="transactions.customer_id"
                     @search="onSearch" 
@@ -47,6 +47,11 @@
                     <td>{{ transactions.customer_id.point }}</td>
                 </tr>
             </table>
+        </div>
+        <div class="col-md-6" v-if="isForm">
+            <h4>Add New Customer</h4>
+            <form-customer />
+            <button class="btn btn-primary btn-s" @click="addCustomer">Save</button>
         </div>
         <div class="col-md-12">
             <hr>
@@ -109,6 +114,7 @@ import { mapState, mapMutations, mapActions } from 'vuex'
 import vSelect from 'vue-select'
 import 'vue-select/dist/vue-select.css'
 import _ from 'lodash'
+import FormCustomer from '../customers/Form.vue'
 
 export default {
     name: 'FormTransaction',
@@ -138,6 +144,7 @@ export default {
     },
     methods: {
         ...mapActions('transaction', ['getCustomers', 'getProducts', 'createTransaction']),
+        ...mapActions('customer', ['submitCustomer']),
         onSearch(search, loading) {
             this.getCustomers({
                 search: search,
@@ -172,10 +179,20 @@ export default {
         submit() {
             this.isSuccess = false
             this.createTransaction(this.transactions).then(() => this.isSuccess = true)
+        },
+        newCustomer() {
+            this.isForm = true
+        },
+        addCustomer() {
+            this.submitCustomer().then((res) => {
+                this.transactions.customer_id = res.data
+                this.isForm = false
+            })
         }
     },
     components: {
-        vSelect
+        vSelect,
+        'form-customer': FormCustomer
     }
 }
 </script>

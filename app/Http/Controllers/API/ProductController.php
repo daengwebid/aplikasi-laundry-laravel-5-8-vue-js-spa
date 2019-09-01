@@ -42,7 +42,9 @@ class ProductController extends Controller
             'name' => 'required|string|max:100',
             'unit_type' => 'required',
             'price' => 'required|integer',
-            'laundry_type' => 'required'
+            'laundry_type' => 'required',
+            'service' => 'required|integer',
+            'service_type' => 'required'
         ]);
 
         try {
@@ -51,7 +53,9 @@ class ProductController extends Controller
                 'unit_type' => $request->unit_type,
                 'laundry_type_id' => $request->laundry_type,
                 'price' => $request->price,
-                'user_id' => auth()->user()->id
+                'user_id' => auth()->user()->id,
+                'service' => $request->service,
+                'service_type' => $request->service_type
             ]);
             return response()->json(['status' => 'success']);
         } catch (\Exception $e) {
@@ -67,12 +71,23 @@ class ProductController extends Controller
 
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'name' => 'required|string|max:100',
+            'unit_type' => 'required',
+            'price' => 'required|integer',
+            'laundry_type' => 'required',
+            'service' => 'required|integer',
+            'service_type' => 'required'
+        ]);
+
         $laundry = LaundryPrice::find($id);
         $laundry->update([
             'name' => $request->name,
             'unit_type' => $request->unit_type,
             'laundry_type_id' => $request->laundry_type,
             'price' => $request->price,
+            'service' => $request->service,
+            'service_type' => $request->service_type
         ]);
         return response()->json(['status' => 'success']);
     }

@@ -4023,6 +4023,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'FormCourier',
@@ -4037,7 +4057,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           name: res.data.name,
           unit_type: res.data.unit_type,
           price: res.data.price,
-          laundry_type: res.data.laundry_type_id
+          laundry_type: res.data.laundry_type_id,
+          service: res.data.service,
+          service_type: res.data.service_type
         };
       });
     }
@@ -4048,7 +4070,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         name: '',
         unit_type: '',
         price: '',
-        laundry_type: ''
+        laundry_type: '',
+        service: '',
+        service_type: ''
       },
       laundry_type: '',
       showForm: false
@@ -4072,17 +4096,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
       });
     },
+    clearForm: function clearForm() {
+      this.product = {
+        name: '',
+        unit_type: '',
+        price: '',
+        laundry_type: '',
+        service: '',
+        service_type: ''
+      };
+    },
     submit: function submit() {
       var _this3 = this;
 
       if (this.$route.name == 'products.add') {
         this.addProductLaundry(this.product).then(function () {
-          _this3.product = {
-            name: '',
-            unit_type: '',
-            price: '',
-            laundry_type: ''
-          };
+          _this3.clearForm();
 
           _this3.$router.push({
             name: 'products.data'
@@ -4093,12 +4122,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           id: this.$route.params.id
         });
         this.updateCourier(this.product).then(function () {
-          _this3.product = {
-            name: '',
-            unit_type: '',
-            price: '',
-            laundry_type: ''
-          };
+          _this3.clearForm();
 
           _this3.$router.push({
             name: 'products.data'
@@ -4207,6 +4231,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'DataCourier',
@@ -4230,6 +4257,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         key: 'user_id',
         label: 'Admin'
+      }, {
+        key: 'service',
+        label: 'Lama Pengerjaan'
       }, {
         key: 'actions',
         label: 'Aksi'
@@ -4570,6 +4600,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_select_dist_vue_select_css__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 /* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _customers_Form_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../customers/Form.vue */ "./resources/js/pages/customers/Form.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(source, true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(source).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -4682,6 +4713,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+
 
 
 
@@ -4717,7 +4754,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     }
   }),
-  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('transaction', ['getCustomers', 'getProducts', 'createTransaction']), {
+  methods: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('transaction', ['getCustomers', 'getProducts', 'createTransaction']), {}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])('customer', ['submitCustomer']), {
     onSearch: function onSearch(search, loading) {
       this.getCustomers({
         search: search,
@@ -4763,10 +4800,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.createTransaction(this.transactions).then(function () {
         return _this.isSuccess = true;
       });
+    },
+    newCustomer: function newCustomer() {
+      this.isForm = true;
+    },
+    addCustomer: function addCustomer() {
+      var _this2 = this;
+
+      this.submitCustomer().then(function (res) {
+        _this2.transactions.customer_id = res.data;
+        _this2.isForm = false;
+      });
     }
   }),
   components: {
-    vSelect: vue_select__WEBPACK_IMPORTED_MODULE_1___default.a
+    vSelect: vue_select__WEBPACK_IMPORTED_MODULE_1___default.a,
+    'form-customer': _customers_Form_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   }
 });
 
@@ -84781,7 +84830,108 @@ var render = function() {
             ])
           : _vm._e()
       ]
-    )
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c(
+          "div",
+          {
+            staticClass: "form-group",
+            class: { "has-error": _vm.errors.service }
+          },
+          [
+            _c("label", { attrs: { for: "" } }, [_vm._v("Lama Pengerjaan")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.product.service,
+                  expression: "product.service"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "number" },
+              domProps: { value: _vm.product.service },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.product, "service", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm.errors.service
+              ? _c("p", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.service[0]))
+                ])
+              : _vm._e()
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-6" }, [
+        _c(
+          "div",
+          {
+            staticClass: "form-group",
+            class: { "has-error": _vm.errors.service_type }
+          },
+          [
+            _c("label", { attrs: { for: "" } }, [_vm._v("Satuan")]),
+            _vm._v(" "),
+            _c(
+              "select",
+              {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.product.service_type,
+                    expression: "product.service_type"
+                  }
+                ],
+                staticClass: "form-control",
+                on: {
+                  change: function($event) {
+                    var $$selectedVal = Array.prototype.filter
+                      .call($event.target.options, function(o) {
+                        return o.selected
+                      })
+                      .map(function(o) {
+                        var val = "_value" in o ? o._value : o.value
+                        return val
+                      })
+                    _vm.$set(
+                      _vm.product,
+                      "service_type",
+                      $event.target.multiple ? $$selectedVal : $$selectedVal[0]
+                    )
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { value: "" } }, [_vm._v("Pilih")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "Hari" } }, [_vm._v("Hari")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "Jam" } }, [_vm._v("Jam")])
+              ]
+            ),
+            _vm._v(" "),
+            _vm.errors.service_type
+              ? _c("p", { staticClass: "text-danger" }, [
+                  _vm._v(_vm._s(_vm.errors.service_type[0]))
+                ])
+              : _vm._e()
+          ]
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = []
@@ -84920,6 +85070,20 @@ var render = function() {
                     _vm._v(
                       "\n                    " +
                         _vm._s(row.item.user.name) +
+                        "\n                "
+                    )
+                  ]
+                }
+              },
+              {
+                key: "service",
+                fn: function(row) {
+                  return [
+                    _vm._v(
+                      "\n                    " +
+                        _vm._s(row.item.service) +
+                        " " +
+                        _vm._s(row.item.service_type) +
                         "\n                "
                     )
                   ]
@@ -85470,7 +85634,19 @@ var render = function() {
           class: { "has-error": _vm.errors.customer_id }
         },
         [
-          _c("label", { attrs: { for: "" } }, [_vm._v("Customer")]),
+          _c("label", { attrs: { for: "" } }, [
+            _vm._v("Customer "),
+            _c("sup", [
+              _c(
+                "a",
+                {
+                  attrs: { href: "javascript:void(0)" },
+                  on: { click: _vm.newCustomer }
+                },
+                [_vm._v("New Customer")]
+              )
+            ])
+          ]),
           _vm._v(" "),
           _c(
             "v-select",
@@ -85570,6 +85746,28 @@ var render = function() {
             ])
           ])
         ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.isForm
+      ? _c(
+          "div",
+          { staticClass: "col-md-6" },
+          [
+            _c("h4", [_vm._v("Add New Customer")]),
+            _vm._v(" "),
+            _c("form-customer"),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary btn-s",
+                on: { click: _vm.addCustomer }
+              },
+              [_vm._v("Save")]
+            )
+          ],
+          1
+        )
       : _vm._e(),
     _vm._v(" "),
     _c("div", { staticClass: "col-md-12" }, [
