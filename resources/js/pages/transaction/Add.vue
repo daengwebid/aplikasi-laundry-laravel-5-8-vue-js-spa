@@ -10,6 +10,9 @@
                     <button class="btn btn-primary btn-sm btn-flat" @click.prevent="submit">
                         <i class="fa fa-save"></i> Create Transaction
                     </button>
+                    <button class="btn btn-danger btn-sm btn-flat" @click.prevent="clearForm">
+                        Clear Form
+                    </button>
                 </div>
             </div>
         </div>
@@ -23,6 +26,9 @@
         methods: {
             submit() {
                 this.$refs.form.submit()
+            },
+            clearForm() {
+                this.$refs.form.resetForm()
             }
         },
         components: {

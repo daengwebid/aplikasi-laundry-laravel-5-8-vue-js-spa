@@ -4568,6 +4568,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -4575,6 +4578,9 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     submit: function submit() {
       this.$refs.form.submit();
+    },
+    clearForm: function clearForm() {
+      this.$refs.form.resetForm();
     }
   },
   components: {
@@ -4750,7 +4756,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }), {
     total: function total() {
       return lodash__WEBPACK_IMPORTED_MODULE_3___default.a.sumBy(this.transactions.detail, function (o) {
-        return o.subtotal;
+        return parseFloat(o.subtotal);
+      });
+    },
+    filterProduct: function filterProduct() {
+      return lodash__WEBPACK_IMPORTED_MODULE_3___default.a.filter(this.transactions.detail, function (item) {
+        return item.laundry_price == null;
       });
     }
   }),
@@ -4768,12 +4779,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     addProduct: function addProduct() {
-      this.transactions.detail.push({
-        laundry_price: null,
-        qty: null,
-        price: 0,
-        subtotal: 0
-      });
+      if (this.filterProduct.length == 0) {
+        this.transactions.detail.push({
+          laundry_price: null,
+          qty: null,
+          price: 0,
+          subtotal: 0
+        });
+      }
     },
     removeProduct: function removeProduct(index) {
       if (this.transactions.detail.length > 1) {
@@ -4797,9 +4810,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       this.isSuccess = false;
-      this.createTransaction(this.transactions).then(function () {
-        return _this.isSuccess = true;
+
+      var filter = lodash__WEBPACK_IMPORTED_MODULE_3___default.a.filter(this.transactions.detail, function (item) {
+        return item.laundry_price != null;
       });
+
+      if (filter.length > 0) {
+        this.createTransaction(this.transactions).then(function () {
+          return _this.isSuccess = true;
+        });
+      }
     },
     newCustomer: function newCustomer() {
       this.isForm = true;
@@ -4811,6 +4831,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this2.transactions.customer_id = res.data;
         _this2.isForm = false;
       });
+    },
+    resetForm: function resetForm() {
+      this.transactions = {
+        customer_id: null,
+        detail: [{
+          laundry_price: null,
+          qty: 1,
+          price: 0,
+          subtotal: 0
+        }]
+      };
     }
   }),
   components: {
@@ -85584,6 +85615,20 @@ var render = function() {
                 _c("i", { staticClass: "fa fa-save" }),
                 _vm._v(" Create Transaction\n                ")
               ]
+            ),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-danger btn-sm btn-flat",
+                on: {
+                  click: function($event) {
+                    $event.preventDefault()
+                    return _vm.clearForm($event)
+                  }
+                }
+              },
+              [_vm._v("\n                    Clear Form\n                ")]
             )
           ])
         ],
@@ -85773,15 +85818,17 @@ var render = function() {
     _c("div", { staticClass: "col-md-12" }, [
       _c("hr"),
       _vm._v(" "),
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-warning btn-sm",
-          staticStyle: { "margin-bottom": "10px" },
-          on: { click: _vm.addProduct }
-        },
-        [_vm._v("Tambah")]
-      ),
+      _vm.filterProduct.length == 0
+        ? _c(
+            "button",
+            {
+              staticClass: "btn btn-warning btn-sm",
+              staticStyle: { "margin-bottom": "10px" },
+              on: { click: _vm.addProduct }
+            },
+            [_vm._v("Tambah")]
+          )
+        : _vm._e(),
       _vm._v(" "),
       _c("div", { staticClass: "table-responsive" }, [
         _c("table", { staticClass: "table table-bordered table-hover" }, [
