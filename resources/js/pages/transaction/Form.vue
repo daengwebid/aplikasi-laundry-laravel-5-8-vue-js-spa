@@ -104,6 +104,7 @@
         <div class="col-md-12" v-if="isSuccess">
             <div class="alert alert-success">
                 Transaksi Berhasil, Total Tagihan: Rp {{ total }}
+                <strong><router-link :to="{ name: 'transactions.view', params: {id: transaction_id} }">Lihat Detail</router-link></strong>
             </div>
         </div>
     </div>
@@ -122,6 +123,7 @@ export default {
         return {
             isForm: false,
             isSuccess: false,
+            transaction_id: null,
             transactions: {
                 customer_id: null,
                 detail: [
@@ -190,7 +192,10 @@ export default {
             })
             
             if (filter.length > 0) {
-                this.createTransaction(this.transactions).then(() => this.isSuccess = true)
+                this.createTransaction(this.transactions).then((res) => {
+                    this.transaction_id = res.data.id
+                    this.isSuccess = true
+                })
             }
         },
         newCustomer() {

@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Transaction;
 use App\DetailTransaction;
 use Carbon\Carbon;
+use App\Payment;
 use DB;
 
 class TransactionController extends Controller
@@ -57,10 +58,60 @@ class TransactionController extends Controller
             }
             $transaction->update(['amount' => $amount]);
             DB::commit();
-            return response()->json(['status' => 'success']);
+            return response()->json(['status' => 'success', 'data' => $transaction]);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json(['status' => 'error', 'data' => $e->getMessage()]);
         }
+    }
+
+    public function edit($id)
+    {
+        $transaction = Transaction::with(['customer', 'payment', 'detail', 'detail.product'])->find($id);
+        return response()->json(['status' => 'success', 'data' => $transaction]);
+    }
+
+    public function makePayment(Request $request)
+    {
+        $this->validate($request, [
+            'transaction_id' => 'required|exists:transactions,id',
+            'amount' => 'required|integer'
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $transaction = Transaction::find($request->transaction_id);
+
+            $customer_change = 0;
+            if ($request->customer_change) {
+                $customer_change = $request->amount - $transaction->amount;
+
+                $transaction->customer()->update(['deposit' => $transaction->customer->deposit + $customer_change]);
+            }
+
+            Payment::create([
+                'transaction_id' => $transaction->id,
+                'amount' => $request->amount,
+                'customer_change' => $customer_change,
+                'type' => false
+            ]);
+            $transaction->update(['status' => 1]);
+            DB::commit();
+            return response()->json(['status' => 'success']);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'failed', 'data' => $e->getMessage()]);
+        }
+    }
+
+    public function completeItem(Request $request)
+    {
+        $this->validate($request, [
+            'id' => 'required|exists:detail_transactions,id'
+        ]);
+
+        $transaction = DetailTransaction::with(['transaction.customer'])->find($request->id);
+        $transaction->update(['status' => 1]);
+        $transaction->transaction->customer()->update(['point' => $transaction->transaction->customer->point + 1]);
+        return response()->json(['status' => 'success']);
     }
 }

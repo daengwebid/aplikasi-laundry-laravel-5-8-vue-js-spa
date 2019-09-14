@@ -35,6 +35,7 @@ import EditCustomer from './pages/customers/Edit.vue'
 
 import IndexTransaction from './pages/transaction/Index.vue'
 import AddTransaction from './pages/transaction/Add.vue'
+import ViewTransaction from './pages/transaction/View.vue'
 
 Vue.use(Router)
 
@@ -206,6 +207,12 @@ const router = new Router({
                     name: 'transactions.add',
                     component: AddTransaction,
                     meta: { title: 'Create New Transaction' }
+                },
+                {
+                    path: 'view/:id',
+                    name: 'transactions.view',
+                    component: ViewTransaction,
+                    meta: { title: 'View Transaction' }
                 },
             ]
         }
