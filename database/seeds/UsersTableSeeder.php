@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Anugrah Sandi',
             'email' => 'admin@daengweb.id',
             'email_verified_at' => now(),
-            'password' => bcrypt('secret'),
+            'password' => 'secret',
             'role' => 0
         ]);
     }
