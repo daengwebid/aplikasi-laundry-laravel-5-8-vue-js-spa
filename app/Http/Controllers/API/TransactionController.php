@@ -9,9 +9,32 @@ use App\DetailTransaction;
 use Carbon\Carbon;
 use App\Payment;
 use DB;
+use App\Http\Resources\TransactionCollection;
 
 class TransactionController extends Controller
 {
+    public function index()
+    {
+        $search = request()->q;
+        $user = request()->user();
+
+        $transaction = Transaction::with(['user', 'detail', 'customer'])->orderBy('created_at', 'DESC')
+            ->whereHas('customer', function($q) use($search) {
+                $q->where('name', 'LIKE', '%' . $search . '%');
+            });
+
+        if (in_array(request()->status, [0,1])) {
+            $transaction = $transaction->where('status', request()->status);
+        }
+
+        if ($user->role != 0) {
+            $transaction = $transaction->where('user_id', $user->id);
+        }
+
+        $transaction = $transaction->paginate(10);
+        return new TransactionCollection($transaction);
+    }
+
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -80,20 +103,27 @@ class TransactionController extends Controller
 
         DB::beginTransaction();
         try {
-            $transaction = Transaction::find($request->transaction_id);
+            $transaction = Transaction::with(['customer'])->find($request->transaction_id);
 
             $customer_change = 0;
-            if ($request->customer_change) {
-                $customer_change = $request->amount - $transaction->amount;
+            if ($request->via_deposit) {
+                if ($transaction->customer->deposit < $request->amount) {
+                    return response()->json(['status' => 'error', 'data' => 'Deposit Kurang!']);
+                }
+                $transaction->customer()->update(['deposit' => $transaction->customer->deposit - $request->amount]);
+            } else {
+                if ($request->customer_change) {
+                    $customer_change = $request->amount - $transaction->amount;
 
-                $transaction->customer()->update(['deposit' => $transaction->customer->deposit + $customer_change]);
+                    $transaction->customer()->update(['deposit' => $transaction->customer->deposit + $customer_change]);
+                }
             }
 
             Payment::create([
                 'transaction_id' => $transaction->id,
                 'amount' => $request->amount,
                 'customer_change' => $customer_change,
-                'type' => false
+                'type' => $request->via_deposit
             ]);
             $transaction->update(['status' => 1]);
             DB::commit();

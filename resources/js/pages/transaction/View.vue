@@ -10,6 +10,9 @@
                             <label for="">Tagihan</label>
                             <input type="text" :value="transaction.amount" class="form-control" readonly>
                         </div>
+                        <div class="form-group" v-if="transaction.customer && transaction.customer.deposit >= transaction.amount">
+                            <input type="checkbox" v-model="via_deposit"> Bayar Via Deposit?
+                        </div>
                         <div class="form-group">
                             <label for="">Jumlah Bayar</label>
                             <input type="number" class="form-control" v-model="amount">
@@ -130,7 +133,17 @@
                 customer_change: false,
                 loading: false,
                 payment_message: null,
-                payment_success: false
+                payment_success: false,
+                via_deposit: false
+            }
+        },
+        watch: {
+            via_deposit() {
+                if (this.via_deposit) {
+                    this.amount = this.transaction.amount
+                } else {
+                    this.amount = null
+                }
             }
         },
         computed: {
@@ -138,10 +151,16 @@
                 transaction: state => state.transaction
             }),
             isCustomerChange() {
-                return this.amount > this.transaction.amount 
+                if (!this.via_deposit) {
+                    return this.amount > this.transaction.amount 
+                }
+                return false
             },
             customerChangeAmount() {
-                return parseInt(this.amount - this.transaction.amount)
+                if (!this.via_deposit) {
+                    return parseInt(this.amount - this.transaction.amount)
+                }
+                return 0
             }
         },
         methods: {
@@ -155,16 +174,23 @@
                 this.payment({
                     transaction_id: this.$route.params.id,
                     amount: this.amount,
-                    customer_change: this.customer_change
-                }).then(() => {
-                    this.payment_success = true
-                    setTimeout(() => {
+                    customer_change: this.customer_change,
+                    via_deposit: this.via_deposit
+                }).then((res) => {
+                    if (res.status == 'success') {
+                        this.payment_success = true
+                        setTimeout(() => {
+                            this.loading = false
+                            this.amount = null,
+                            this.customer_change = false,
+                            this.payment_message = null
+                            this.via_deposit = false
+                        }, 500)
+                        this.detailTransaction(this.$route.params.id)
+                    } else {
                         this.loading = false
-                        this.amount = null,
-                        this.customer_change = false,
-                        this.payment_message = null
-                    }, 500)
-                    this.detailTransaction(this.$route.params.id)
+                        alert(res.data)
+                    }
                 })
             },
             isDone(id) {
