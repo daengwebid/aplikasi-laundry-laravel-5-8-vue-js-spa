@@ -16,6 +16,8 @@ use Illuminate\Http\Request;
 Route::post('/login', 'Auth\LoginController@login');
 
 Route::group(['middleware' => 'auth:api'], function() {
+    Route::get('chart', 'API\DashboardController@chart');
+    Route::get('export', 'API\DashboardController@exportData');
     Route::resource('/outlets', 'API\OutletController')->except(['show']);
     
     Route::resource('/couriers', 'API\UserController')->except(['create', 'show', 'update']);
