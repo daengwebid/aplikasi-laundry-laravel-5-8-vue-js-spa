@@ -7,64 +7,24 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
 </p>
 
-## About Laravel
+## Aplikasi Laundry (Laravel 5.8 - Vue.js - SPA)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Berikut adalah materi yang membahas bagaimana proses pembuatan aplikasi dari source code di atas
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost you and your team's skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- [Aplikasi Laundry (Laravel 5.8 - Vue.js - SPA) #1: Schema Database](https://daengweb.id/aplikasi-laundry-laravel-58-vuejs-spa-1-schema-database).
+- [Aplikasi Laundry (Laravel 5.8 - Vue.js - SPA) #2: Templating & Authentication](https://daengweb.id/aplikasi-laundry-laravel-58-vuejs-spa-2-templating-authentication).
+- [Aplikasi Laundry (Laravel 5.8 - Vue.js - SPA) #3: Management Outlets](https://daengweb.id/aplikasi-laundry-laravel-58-vuejs-spa-3-management-outlets).
+- [Aplikasi Laundry (Laravel 5.8 - Vue.js - SPA) #4: Management Couriers](https://daengweb.id/aplikasi-laundry-laravel-58-vuejs-spa-4-management-couriers).
+- [Aplikasi Laundry (Laravel 5.8 - Vue.js - SPA) #5: Manage Laundry Products](https://daengweb.id/aplikasi-laundry-laravel-58-vuejs-spa-5-manage-laundry-products).
+- [Aplikasi Laundry (Laravel 5.8 - Vue.js - SPA) #6: Role & User Permissions](https://daengweb.id/aplikasi-laundry-laravel-58-vuejs-spa-6-role-user-permissions).
+- [Aplikasi Laundry (Laravel 5.8 - Vue.js - SPA) #7: Push Notification Expenses](https://daengweb.id/aplikasi-laundry-laravel-58-vuejs-spa-7-push-notification-expenses).
+- [Aplikasi Laundry (Laravel 5.8 - Vue.js - SPA) #8: Manage Customers](https://daengweb.id/aplikasi-laundry-laravel-58-vuejs-spa-8-manage-customers).
+- [Aplikasi Laundry (Laravel 5.8 - Vue.js - SPA) #9: Modul Transaksi Part 1](https://daengweb.id/aplikasi-laundry-laravel-58-vuejs-spa-9-modul-transaksi-part-1).
+- [Aplikasi Laundry (Laravel 5.8 - Vue.js - SPA) #10: Modul Transaksi Part 2](https://daengweb.id/aplikasi-laundry-laravel-58-vuejs-spa-10-modul-transaksi-part-2).
+- [Aplikasi Laundry (Laravel 5.8 - Vue.js - SPA) #11: Modul Transaksi Part 3](https://daengweb.id/aplikasi-laundry-laravel-58-vuejs-spa-11-modul-transaksi-part-3).
+- [Aplikasi Laundry (Laravel 5.8 - Vue.js - SPA) #12: Payment & Detail Transaksi](https://daengweb.id/aplikasi-laundry-laravel-58-vuejs-spa-12-payment-detail-transaksi).
+- [Aplikasi Laundry (Laravel 5.8 - Vue.js - SPA) #13: List Transaksi](https://daengweb.id/aplikasi-laundry-laravel-58-vuejs-spa-13-list-transaksi).
+- [Aplikasi Laundry (Laravel 5.8 - Vue.js - SPA) #14: Chart & Laporan](https://daengweb.id/aplikasi-laundry-laravel-58-vuejs-spa-14-chart-laporan).
 
 ## License
 
